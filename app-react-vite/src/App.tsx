@@ -6,7 +6,7 @@ import './App.css';
 let url = `/api/todo`;
 
 const cloudEnv = import.meta.env.VITE_CLOUD_ENV || `production`;
-const backendEnv = import.meta.env.VITE_BACKEND_URI || `https://localhost:7071`;
+const backendEnv = import.meta.env.VITE_BACKEND_URI || `http://localhost:7071`;
 
 console.log(`CLOUD_ENV = ${cloudEnv}`)
 console.log(`BACKEND_URI = ${backendEnv}`)
@@ -131,7 +131,6 @@ function App() {
           </div>
           : <div>Sign in for private data access</div>
         }
-
 
       </header>
     </div>

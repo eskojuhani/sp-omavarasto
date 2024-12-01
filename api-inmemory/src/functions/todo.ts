@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 //create a todo, view a todo, modify a todo, list all todos, delete all todos
-
+//import cors from 'cors';
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 // import { MongoClient } from 'mongodb';
 
@@ -14,8 +14,13 @@ type Todo = {
 let todos = {
   "1": "Say hello"
 };
+/*
+const corsOptions = {
+  origin: 'http://localhost:5173'
+};
 
-
+app.use(cors(corsOptions));
+*/
 app.get('getAll', {
   route: "todo",
   authLevel: 'anonymous',
@@ -24,14 +29,14 @@ app.get('getAll', {
     return { jsonBody: todos }
   }
 })
-
-// curl --location 'http://localhost:7071/api/users?user=mike' \
-// --header 'Content-Type: application/json' \
-// --data '{
-//     "name": "dina",
-//     "age": "21"
-// }'
-
+/*
+ curl --location 'http://localhost:7071/api/users?user=mike' \
+ --header 'Content-Type: application/json' \
+ --data '{
+     "name": "dina",
+     "age": "21"
+ }'
+*/
 app.post('addOne', {
   route: "todo",
   authLevel: 'anonymous',
