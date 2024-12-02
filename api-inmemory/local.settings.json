@@ -1,0 +1,10 @@
+{
+  "Host": {
+    "LocalHttpPort": 7071,
+    "CORS": "http://localhost:4280",
+    "CORSCredentials": true
+  },
+  "IsEncrypted": false,
+  "Values": {
+  }
+}

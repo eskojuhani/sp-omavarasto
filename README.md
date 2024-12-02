@@ -35,3 +35,37 @@ A monorepo of apps used with the Azure cloud as part of the [Azure Developer Cen
 |`api=`|HTTP API.|
 |`lib-`|Library. Included in other projects.|
 |`cli-`|Command-line interface.|
+
+
+
+curl \
+ -H 'Content-Type: application/json' \
+ -H 'Accept: application/json' \
+ -d '{name: "alfa"}' \
+ -X POST http://localhost:7071/api/exampleTable
+
+CREATE TABLE Varasto (
+  Id UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY,
+  AsiakasId int NOT NULL,
+  Name
+);
+
+CREATE TABLE Tuote (
+  Id UNIQUEIDENTIFIER DEFAULT NEWID(),
+  VarastoId REFERENCES Varasto(Id)
+  Snro int null,
+  Tuotenimi NVARCHAR(40) not null,
+  Lajimerkki NVARCHAR(40) null,
+  Era NVARCHAR(40) null,
+  Yksikko NVARCHAR(20) null,
+  Saldo NUMERIC(10, 2) null,
+  Huomio NVARCHAR(40) null,
+  Viite NVARCHAR(40) null,
+  Tyo NVARCHAR(40) null,
+  Luontipvm DATETIME DEFAULT GETDATE() not null,
+  Muutospvm DATETIME null
+);
+
+Alter table Tuote
+Add constraint [Tuote_pmkey]
+primary key (Id, VarastoId)

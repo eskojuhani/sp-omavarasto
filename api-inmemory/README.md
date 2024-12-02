@@ -1,0 +1,85 @@
+#SCHEMA
+
+DROP KEY Tuote_pmkey;
+DROP KEY Tuoteloki_pmkey;
+
+DROP TABLE dbo.Varasto;
+DROP TABLE dbo.Tuote;
+DROP TABLE dbo.TuoteLoki;
+DROP TABLE dbo.Yksikko;
+
+CREATE TABLE Varasto (
+  Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+  AsiakasId int NOT NULL,
+  Nimi NVARCHAR(40) NOT NULL
+);
+SET IDENTITY_INSERT Varasto ON;
+
+CREATE TABLE Tuote (
+  VarastoId INT REFERENCES Varasto(Id) NOT NULL,
+  Id INT NOT NULL IDENTITY(1,1),
+  Snro INT NULL,
+  Tuotenimi NVARCHAR(40) NOT NULL,
+  Lajimerkki NVARCHAR(40) NULL,
+  Era NVARCHAR(40) NULL,
+  Yksikko NVARCHAR(20) NULL,
+  Saldo NUMERIC(15, 2) NULL DEFAULT 0,
+  Huomio NVARCHAR(40) NULL,
+  Viite NVARCHAR(40) NULL,
+  Tyo NVARCHAR(40) NULL,
+  Luontipvm DATETIME DEFAULT GETDATE() NOT NULL,
+  Muutospvm DATETIME NULL,
+  Poistopvm DATETIME NULL 
+);
+SET IDENTITY_INSERT Tuote ON;
+
+ALTER TABLE Tuote
+ADD CONSTRAINT Tuote_pmkey
+PRIMARY KEY (VarastoId, Id);
+
+CREATE TABLE TuoteLoki (
+  VarastoId INT REFERENCES Varasto(Id) NOT NULL,
+  Id INT NOT NULL IDENTITY(1,1),
+  Snro INT NULL,
+  Tuotenimi NVARCHAR(40) NOT NULL,
+  Lajimerkki NVARCHAR(40) NULL,
+  Era NVARCHAR(40) NULL,
+  Yksikko NVARCHAR(20) NULL,
+  Saldo NUMERIC(15, 2) NULL DEFAULT 0,
+  Saapuminen NUMERIC(15, 2) NULL DEFAULT 0,
+  Ottaminen NUMERIC(15, 2) NULL DEFAULT 0,
+  Huomio NVARCHAR(40) NULL,
+  Viite NVARCHAR(40) NULL,
+  Tyo NVARCHAR(40) NULL,
+  Paivays DATETIME DEFAULT GETDATE() NOT NULL,
+  KayttajaId NVARCHAR(40)
+);
+ALTER TABLE TuoteLoki
+ADD CONSTRAINT TuoteLoki_pmkey
+PRIMARY KEY (VarastoId, Id);
+
+SET IDENTITY_INSERT TuoteLoki ON;
+
+CREATE TABLE Yksikko (
+  Id INT NOT NULL IDENTITY(1,1),
+  Nimi NVARCHAR(10) NOT NULL
+);
+SET IDENTITY_INSERT Yksikko ON
+
+INSERT INTO Yksikko VALUES ('H');
+INSERT INTO Yksikko VALUES ('KG');
+INSERT INTO Yksikko VALUES ('KPL');
+INSERT INTO Yksikko VALUES ('M');
+INSERT INTO Yksikko VALUES ('PAA');
+INSERT INTO Yksikko VALUES ('PAR');
+INSERT INTO Yksikko VALUES ('PS');
+INSERT INTO Yksikko VALUES ('RL');
+INSERT INTO Yksikko VALUES ('SET');
+INSERT INTO Yksikko VALUES ('SRJ');
+
+
+curl \
+ -H 'Content-Type: application/json' \
+ -H 'Accept: application/json' \
+ -d '{AsiakasId: "1", Nimi: "Vantaa"}' \
+ -X POST http://localhost:7071/api/varasto
