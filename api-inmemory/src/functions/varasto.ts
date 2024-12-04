@@ -51,16 +51,16 @@ app.http('varasto', {
 /* Varastot - GetAll */
 const sqlGetAll = input.generic({
     type: 'sql',
-    commandText: 'select * from dbo.Varasto where AsiakasId = @Id',
+    commandText: 'select * from dbo.Varasto where OrganisaatioId = @Id',
     commandType: 'Text',
     parameters: '@Id={id}',
     connectionStringSetting: 'SqlConnectionString'
 })
 
-app.http('varastot', {
+app.http('varasto', {
     methods: ['GET', 'POST'],
     authLevel: 'anonymous',
-    route: 'varastot/{id}',
+    route: 'varasto/{id}',
     extraInputs: [sqlGetAll],
     handler: async (request, context) => {
         const products = JSON.stringify(context.extraInputs.get(sqlGetAll));
